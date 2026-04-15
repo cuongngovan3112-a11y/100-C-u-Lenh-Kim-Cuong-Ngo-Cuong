@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💎 Diamond Prompt — Ngô Văn Cương</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07070a;
+    --bg2: #0d0d12;
+    --bg3: #121218;
+    --card: #101016;
+    --card-hover: #16161e;
+    --border: #232333;
+    --border-glow: #d4af3744;
+    --gold: #d4af37;
+    --gold2: #f9d976;
+    --gold-dim: #8a732a;
+    --teal: #00e5ff;
+    --text: #f4f2ec;
+    --text2: #b5b3ad;
+    --text3: #75736e;
+    --diamond: #00f0ff;
+    --diamond2: #a8f4e8;
+    --saved-bg: #15150c;
+    --saved-border: #d4af3755;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 10px 40px rgba(0,0,0,0.6);
+    --shadow-gold: 0 0 50px rgba(212,175,55,0.1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Background texture ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 50%, rgba(0,240,255,0.03), transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(212,175,55,0.04), transparent 30%),
+      radial-gradient(ellipse 40% 60% at 50% -10%, rgba(212,175,55,0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 80px max(24px, calc((100vw - 1200px) / 2)) 50px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(212,175,55,0.05) 0%, transparent 100%);
+  }
+
+  .header-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 5px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .diamond-icon {
+    font-size: 52px;
+    display: block;
+    margin: 0 auto 16px;
+    filter: drop-shadow(0 0 25px rgba(0,240,255,0.5));
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .header h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(32px, 6vw, 64px);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold2) 0%, var(--gold) 40%, #ffeb99 60%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 3px;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .header-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--text2);
+    letter-spacing: 1.5px;
+    margin-bottom: 36px;
+  }
+
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+
+  .stat {
+    text-align: center;
+    padding: 16px 24px;
+    background: rgba(212,175,55,0.05);
+    border: 1px solid var(--border-glow);
+    border-radius: var(--radius-sm);
+    min-width: 110px;
+    transition: transform 0.3s;
+  }
+  
+  .stat:hover {
+    transform: translateY(-2px);
+    border-color: rgba(212,175,55,0.3);
+  }
+
+  .stat-num {
+    font-family: 'Cinzel', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── CONTROLS ── */
+  .controls {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    padding: 24px max(24px, calc((100vw - 1200px) / 2));
+    background: rgba(7,7,10,0.92);
+    backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .search-wrap {
+    flex: 1;
+    min-width: 250px;
+    position: relative;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    font-size: 16px;
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 14px 48px 14px 46px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .search-input:focus {
+    border-color: var(--gold-dim);
+    box-shadow: 0 0 0 4px rgba(212,175,55,0.08);
+  }
+
+  .search-input::placeholder { color: var(--text3); }
+
+  .clear-search {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text3);
+    cursor: pointer;
+    font-size: 18px;
+    padding: 2px;
+    display: none;
+  }
+
+  .clear-search:hover { color: var(--text2); }
+
+  .filter-btns {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 10px 18px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    color: var(--text2);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+
+  .filter-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+  .filter-btn.active { background: rgba(212,175,55,0.12); border-color: var(--gold); color: var(--gold); }
+
+  .sort-btn {
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    color: var(--text3);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .sort-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+
+  /* ── RESULTS INFO ── */
+  .results-info {
+    padding: 20px max(24px, calc((100vw - 1200px) / 2)) 10px;
+    position: relative;
+    z-index: 1;
+    color: var(--text3);
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── GRID ── */
+  .grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 28px;
+    padding: 20px max(24px, calc((100vw - 1200px) / 2)) 80px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    position: relative;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeUp 0.5s ease both;
+    overflow: hidden;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, rgba(212,175,55,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(212,175,55,0.25);
+    box-shadow: var(--shadow), var(--shadow-gold);
+  }
+
+  .card.saved {
+    background: var(--saved-bg);
+    border-color: var(--saved-border);
+  }
+
+  .card-number {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold-dim);
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .card-category {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: rgba(212,175,55,0.06);
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gold-dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .card-category-icon { font-size: 12px; }
+
+  .card-prompt {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 20px;
+    position: relative;
+    font-weight: 300;
+  }
+
+  .card-prompt .highlight {
+    background: rgba(212,175,55,0.2);
+    border-radius: 3px;
+    padding: 0 3px;
+    color: var(--gold2);
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-glow), transparent);
+    margin-bottom: 18px;
+  }
+
+  .benefit-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+    opacity: 0.9;
+  }
+
+  .benefit-label::before {
+    content: '';
+    width: 18px;
+    height: 1px;
+    background: var(--teal);
+    opacity: 0.7;
+  }
+
+  .card-benefit {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .card-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 8px;
+  }
+
+  .btn-copy {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: rgba(212,175,55,0.06);
+    border: 1px solid rgba(212,175,55,0.18);
+    border-radius: var(--radius-sm);
+    color: var(--gold);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+  }
+
+  .btn-copy:hover { background: rgba(212,175,55,0.15); border-color: var(--gold); }
+
+  .btn-copy.copied {
+    background: rgba(0,229,255,0.1);
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+
+  .btn-save {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text3);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+  }
+
+  .btn-save:hover { border-color: var(--gold-dim); color: var(--gold); }
+  .btn-save.active { border-color: var(--gold); color: var(--gold); background: rgba(212,175,55,0.1); }
+
+  .card-number-badge {
+    margin-left: auto;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: var(--text3);
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 100px 20px;
+    color: var(--text3);
+  }
+
+  .empty-icon {
+    font-size: 56px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+  }
+
+  .empty-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 40px max(24px, calc((100vw - 1200px) / 2)) 60px;
+    border-top: 1px solid var(--border);
+    color: var(--text3);
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  .footer span {
+    color: var(--gold-dim);
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: var(--card);
+    border: 1px solid var(--gold-dim);
+    border-radius: var(--radius-sm);
+    padding: 14px 24px;
+    color: var(--gold);
+    font-size: 15px;
+    font-weight: 500;
+    z-index: 999;
+    box-shadow: var(--shadow);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .grid { grid-template-columns: 1fr; padding: 20px 16px 40px; }
+    .header { padding: 60px 16px 40px; }
+    .controls { padding: 16px; gap: 12px; }
+    .filter-btn { font-size: 13px; padding: 8px 14px; }
+    .stats-bar { gap: 20px; }
+    .card { padding: 24px; }
+    .header h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-brand">Ngô Văn Cương · 2026</div>
+  <span class="diamond-icon">💎</span>
+  <h1>Diamond Prompt</h1>
+  <div class="header-sub">100 câu lệnh trải nghiệm đỉnh cao</div>
+  <div class="stats-bar">
+    <div class="stat"><span class="stat-num" id="totalCount">100</span><span class="stat-label">Tổng số</span></div>
+    <div class="stat"><span class="stat-num" id="savedCount">0</span><span class="stat-label">Đã lưu</span></div>
+    <div class="stat"><span class="stat-num" id="showCount">100</span><span class="stat-label">Hiển thị</span></div>
+  </div>
+</header>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="searchInput" type="text" placeholder="Tìm câu lệnh..." autocomplete="off">
+    <button class="clear-search" id="clearSearch" title="Xoá tìm kiếm">✕</button>
+  </div>
+  <div class="filter-btns">
+    <button class="filter-btn active" data-cat="all">Tất cả</button>
+    <button class="filter-btn" data-cat="triettly">🌿 Triết lý</button>
+    <button class="filter-btn" data-cat="kinhdoanh">💼 Kinh doanh</button>
+    <button class="filter-btn" data-cat="ai">🤖 AI & ChatGPT</button>
+    <button class="filter-btn" data-cat="marketing">📣 Marketing</button>
+    <button class="filter-btn" data-cat="daotao">🎓 Đào tạo</button>
+    <button class="filter-btn" data-cat="suckhoe">🫀 Sức khoẻ</button>
+    <button class="filter-btn" data-cat="saved">⭐ Đã lưu</button>
+  </div>
+  <button class="sort-btn" id="sortBtn">Số thứ tự ↑</button>
+</div>
+
+<div class="results-info" id="resultsInfo">Hiển thị 100 câu lệnh</div>
+
+<!-- GRID -->
+<main class="grid" id="grid"></main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>💎 <span>Diamond Prompt</span> · Ngô Văn Cương · 2026 · 100 câu lệnh kim cương</p>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Đã sao chép!</div>
+
+<script>
+// ══════════════════════════════════════════════
+// DATA — 100 câu lệnh (giữ nguyên 100% nội dung)
+// ══════════════════════════════════════════════
+const prompts = [
+  {
+    id: 1, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Tôi thấy rằng trong Vũ Trụ, vạn vật đều vận hành theo quy luật của thời gian và chu kỳ, không có bông hoa nào nở quanh năm, cũng không có sự thành công nào mãi mãi cả. Giống như những mùa vụ, khi thời vận đến mọi sự sẽ hanh thông. Hãy liệt kê ra những quy luật bất biến của thời gian mà con người không biết, để tôi ứng dụng vào cuộc sống đạt được hạnh phúc, thành công và bình an theo đúng chu kỳ của quy luật vũ Trụ",
+    benefit: "Giúp bạn sống thuận theo quy luật tự nhiên, biết khi nào nên nỗ lực, khi nào cần nghỉ ngơi — tránh kiệt sức vì đi ngược chu kỳ."
+  },
+  {
+    id: 2, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Ngày hôm nay anh được một người thầy cho ba từ khóa: đúng người, đúng việc, và đúng thời điểm. Ông thầy này nói rằng, làm bất cứ một cái gì đều phải thấu hiểu ba từ khóa này. Em hãy đóng vai là một trong những chuyên gia chuyên nghiên cứu về những từ khóa để dẫn con người đến thịnh vượng, tìm hiểu sâu sắc về ba từ khóa này và phân tích tại sao ba từ khóa này lại quan trọng với đời của một con người dẫn đến thịnh vượng.",
+    benefit: "Phân tích sâu 3 yếu tố quyết định mọi sự thành công — là bộ lọc tư duy giúp bạn đưa ra quyết định chuẩn xác hơn trong cuộc sống."
+  },
+  {
+    id: 3, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Anh thấy là từ khóa biết ơn rất năng lượng và quan trọng trong cuộc sống. Em hãy đóng vai là một trong những chuyên gia chuyên nghiên cứu về những từ khóa để dẫn con người đến thịnh vượng, tìm hiểu sâu sắc về từ khóa biết ơn và phân tích tại sao từ khóa này lại quan trọng trong cuộc sống.",
+    benefit: "Khai thác sức mạnh của lòng biết ơn như một công cụ phát triển bản thân, giúp nâng cao năng lượng và thu hút sự thịnh vượng."
+  },
+  {
+    id: 4, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Tại sao tôi học giỏi, có nhiều bằng cấp, có rất nhiều mối quan hệ, cũng trải nghiệm rất nhiều, làm rất nhiều công việc khác nhau, nhưng vẫn chưa thành công, vẫn chưa có tiền, thậm chí còn cảm thấy cuộc sống này bế tắc và đau khổ hơn. Tôi chưa biết lý do ở đâu. Hãy giải mã.",
+    benefit: "Giải mã những rào cản ẩn bên trong ngăn bạn thành công dù đã có đầy đủ kiến thức và mối quan hệ — bước đột phá tư duy thực sự."
+  },
+  {
+    id: 5, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Hiện tại, tôi đang có một người con đang vào giai đoạn chuẩn bị học đại học, nhưng mãi chơi game, xem điện thoại, nói thì không nghe, và mê game. Tôi cảm thấy bất lực và cảm thấy áp lực stress, và tôi cũng đi học rất nhiều các chương trình để giải quyết vấn đề này, nhưng vẫn chưa tìm được giải pháp nào. Tại sao lại như vậy? Tại sao con lại chơi game? Tôi đã từng dùng mọi biện pháp nhưng không được.",
+    benefit: "Giúp bố mẹ hiểu bản chất tâm lý của con nghiện game thay vì chỉ nhìn vào biểu hiện — nền tảng để tìm ra giải pháp thực sự hiệu quả."
+  },
+  {
+    id: 6, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Hãy giúp cho anh công thức để tìm ra được như thế nào được gọi là đúng người và có bao nhiêu phương thức để lựa chọn ra một con người để mình đi theo, mình đồng hành, hợp tác hay làm ăn hay làm việc. Và hãy phân tích cho anh các vị nhân hay những bậc trí tuệ thời xưa họ dùng người như thế nào.",
+    benefit: "Xây dựng bộ tiêu chí chọn người đồng hành chính xác — tránh sai lầm tốn kém về thời gian, tiền bạc khi chọn nhầm đối tác."
+  },
+  {
+    id: 7, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Anh phát hiện ra một điều. Anh đang sống ở dưới bầu trời và đứng trên mặt đất. Thì bây giờ anh sẽ cần phải hiểu về các định luật ở trong trái đất này, bao gồm mặt đất, bao gồm bầu trời, bao gồm vũ trụ, để anh tương thích để tồn tại, để phát triển, để thuận theo tự nhiên.",
+    benefit: "Mở rộng tầm nhìn về các quy luật tự nhiên để sống, làm việc và phát triển thuận chiều với vũ trụ — nền tảng của mọi sự thịnh vượng bền vững."
+  },
+  {
+    id: 8, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Tôi rất muốn làm kinh doanh, nhưng không có vốn và không biết bắt đầu từ đâu. Làm thế nào để xây dựng được một bệ chế kinh doanh và tạo ra được thu nhập dòng tiền ổn định?",
+    benefit: "Lộ trình kinh doanh từ điểm 0 — cho người chưa có vốn nhưng có ý chí, giúp xây dựng dòng tiền bền vững từng bước rõ ràng."
+  },
+  {
+    id: 9, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Em hãy lên cho anh một lộ trình để giải quyết tận gốc vấn đề cho người con nghiện game. Hành trình trong 30 ngày biến đổi để giúp cho người con này không nghiện game nữa. Hướng dẫn anh từng bước, từng tuần, chi tiết.",
+    benefit: "Kế hoạch 30 ngày cụ thể để chuyển hoá con nghiện game — thay đổi từ gốc rễ tâm lý thay vì chỉ cấm đoán từ bên ngoài."
+  },
+  {
+    id: 10, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Anh phát hiện ra một công thức như sau: để đánh thức tâm trí con người, cách nhanh nhất là cho họ trải nghiệm. Đây là cách nhanh nhất để họ học được một điều gì đó — học qua trải nghiệm. Em thấy công thức này thế nào? Tại sao nó lại hiệu quả? Và ai là người áp dụng công thức này giỏi nhất trên thế giới?",
+    benefit: "Khám phá nền tảng khoa học của học qua trải nghiệm — giúp bạn thiết kế chương trình đào tạo, bài giảng tác động sâu và nhớ lâu."
+  },
+  {
+    id: 11, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Doanh nghiệp của anh đang lãi có lợi nhuận, trừ hết chi phí đi rồi đang có khoảng tầm 10 tỷ trong công ty. Anh đang thấy rất nhiều doanh nghiệp ở Việt Nam họ có cách để hợp thức hóa thu nhập này một cách hợp pháp. Thì chiến lược hợp pháp họ đang làm kiểu gì? Không được dạy cách trốn thuế mà dạy cách hợp pháp.",
+    benefit: "Hiểu rõ các chiến lược tài chính hợp pháp để tối ưu hóa lợi nhuận doanh nghiệp — tiết kiệm chi phí đáng kể trong khuôn khổ pháp luật."
+  },
+  {
+    id: 12, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Đây là một cuốn sách về [chủ đề]. Em hãy đóng vai là một trong những hiền giả, những tác giả, là những người chuyên đọc sách, thấu hiểu về tất cả những cuốn sách hàng đầu thế giới. Hãy đọc và hãy viết ra cho anh tất cả những từ khóa, những thông điệp hay nhất trong cuốn sách này, dẫn dắt từ cấp độ 1 cho đến cấp độ cao nhất, để anh có thể hiểu được cuốn sách một cách nhanh chóng và áp dụng được ngay vào công việc và đời sống.",
+    benefit: "Rút ngắn thời gian đọc sách — giúp bạn nắm bắt tinh hoa từng cuốn sách theo hệ thống từ cơ bản đến nâng cao và ứng dụng ngay."
+  },
+  {
+    id: 13, cat: "ai",
+    catLabel: "AI & ChatGPT", catIcon: "🤖",
+    text: "Tôi đang muốn thiết kế ra một giải pháp mang lại giá trị rất lớn cho mọi người học về AI. Bạn hãy viết ra cho tôi 10 câu hỏi để tôi đi tham khảo thị trường. Nhóm khách hàng của tôi là chủ doanh nghiệp SME vừa và nhỏ. Hãy viết cho tôi 10 câu hỏi để tôi có thể đưa ra được giải pháp thiết kế cho họ về một khóa học AI đẳng cấp.",
+    benefit: "Bộ câu hỏi nghiên cứu thị trường chuyên nghiệp dành riêng cho đối tượng SME — nền tảng để thiết kế khóa học AI đúng nhu cầu thực tế."
+  },
+  {
+    id: 14, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Bây giờ, anh muốn giới thiệu bản thân 1 phút trước 100 người vào trong hội nghị. Anh là Ngô văn cương — Chuyên gia đào tạo về ứng dụng AI trong công việc và phát triển bản thân. Giới thiệu kiểu gì để họ phải lắng nghe, họ phải xin số điện thoại, họ phải đi theo mình. Chỉ có 1 phút thôi!",
+    benefit: "Tạo ra bài giới thiệu 60 giây có sức hút mạnh mẽ — công cụ networking thiết yếu giúp bạn để lại dấu ấn không thể quên."
+  },
+  {
+    id: 15, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Bây giờ, em hãy viết ở cấp độ mạnh hơn nữa để cho tất cả những người ngồi ở bên dưới phải tranh nhau xin số điện thoại, ở cấp độ mà mọi người không thể ngồi yên được. Hãy đưa ra dẫn chứng cụ thể trước mặt họ là những tình huống mà họ nghe xong họ không thể ngồi ở đây được nữa.",
+    benefit: "Nâng cấp bài giới thiệu lên tầm kịch tính tột đỉnh — dành cho sân khấu lớn, hội nghị đông người, cần tác động ngay lập tức."
+  },
+  {
+    id: 16, cat: "ai",
+    catLabel: "AI & ChatGPT", catIcon: "🤖",
+    text: "Hãy viết ra cho anh tất cả những cấu trúc, những điều kiện, những quy tắc để có thể giúp cho AI hiểu một cách chi tiết về chủ nhân, người sử dụng tài khoản ChatGPT.",
+    benefit: "Xây dựng hồ sơ cá nhân hoàn chỉnh cho ChatGPT — giúp AI phản hồi đúng phong cách, đúng ngữ cảnh và phù hợp với mục tiêu của bạn."
+  },
+  {
+    id: 17, cat: "marketing",
+    catLabel: "Marketing & Bán hàng", catIcon: "📣",
+    text: "Tôi đang bán một loại sản phẩm thực phẩm chức năng chuyên hỗ trợ cho bệnh tiểu đường. Bây giờ bạn hãy lên cho tôi một giáo án để có thể giảng bài cho những người bị bệnh tiểu đường để họ bị thuyết phục hoàn toàn theo kiến thức y khoa rồi dẫn dắt làm thế nào để tôi bán được sản phẩm.",
+    benefit: "Xây dựng giáo án bán hàng kết hợp kiến thức y khoa — tạo niềm tin sâu sắc và tăng tỷ lệ chuyển đổi cho sản phẩm sức khoẻ."
+  },
+  {
+    id: 18, cat: "suckhoe",
+    catLabel: "Sức khoẻ & Cuộc sống", catIcon: "🫀",
+    text: "Tôi muốn tìm hiểu sâu sắc về sức khỏe. Bạn hãy đóng vai là một bác sĩ y khoa chuyên về giải phẫu. Hãy phân tích cho tôi tất cả những chức năng, các bộ phận trong cơ thể. Và hãy phân tích cho tôi nguồn dinh dưỡng để cung cấp cho các chức năng trong cơ thể để hoạt động tốt nhất. Thời gian, thức ăn, thực phẩm, và các lưu ý làm thế nào để bộ máy chạy tốt nhất.",
+    benefit: "Tổng quan y khoa toàn diện về cơ thể người — kiến thức nền tảng để bạn tự chăm sóc sức khoẻ và tư vấn sản phẩm sức khoẻ hiệu quả."
+  },
+  {
+    id: 19, cat: "ai",
+    catLabel: "AI & ChatGPT", catIcon: "🤖",
+    text: "Bạn là chuyên gia hàng đầu về ứng dụng AI trong công việc và cuộc sống. Hãy cho tôi 20 prompt thật chi tiết để tôi hỏi lại ChatGPT về các lĩnh vực phát triển bản thân và phát triển trong công việc.",
+    benefit: "Bộ 20 câu lệnh chất lượng cao sẵn sàng dùng ngay — tiết kiệm thời gian, khai thác sâu nhất ChatGPT cho mục tiêu cá nhân và nghề nghiệp."
+  },
+  {
+    id: 20, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Hãy phân tích cho tôi 5 nguyên tắc sống của Elon Musk, Steve Jobs và Khổng Tử. Sau đó gợi ý cách áp dụng từng nguyên tắc vào công việc và đời sống hàng ngày của tôi.",
+    benefit: "Học hỏi tinh hoa từ 3 bậc thầy vĩ đại của nhân loại — rút ngắn hàng chục năm kinh nghiệm thành bộ nguyên tắc hành động cụ thể."
+  },
+  {
+    id: 21, cat: "ai",
+    catLabel: "AI & ChatGPT", catIcon: "🤖",
+    text: "Bạn là một chuyên gia hàng đầu về đào tạo ứng dụng ChatGPT. Tôi là một người mới, chưa biết gì. Hãy tạo cho tôi một giáo trình học ChatGPT 7 ngày, nắm được những kiến thức cốt lõi nhất để ứng dụng ChatGPT vào cuộc sống một cách hiệu quả, bao gồm các câu lệnh thật cụ thể và chi tiết.",
+    benefit: "Lộ trình học ChatGPT 7 ngày từ đầu — giúp người mới hoàn toàn có thể thành thạo công cụ AI trong 1 tuần với hướng dẫn chi tiết từng bước."
+  },
+  {
+    id: 22, cat: "ai",
+    catLabel: "AI & ChatGPT", catIcon: "🤖",
+    text: "Giải thích ChatGPT là gì cho người chưa biết gì, ngắn gọn trong 3 câu.",
+    benefit: "Câu trả lời súc tích, dễ hiểu để bạn giới thiệu AI với người thân, khách hàng chưa biết — công cụ mở đầu lý tưởng cho mọi buổi đào tạo."
+  },
+  {
+    id: 23, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Tôi đang làm trong lĩnh vực giáo viên. Hãy cho tôi 20 câu lệnh để tôi hỏi lại ChatGPT ứng dụng trong lĩnh vực của tôi, nâng cao hiệu quả công việc.",
+    benefit: "Bộ công cụ AI dành riêng cho giáo viên — giúp soạn giáo án nhanh hơn, tạo bài tập sáng tạo và nâng cao hiệu quả giảng dạy đáng kể."
+  },
+  {
+    id: 24, cat: "marketing",
+    catLabel: "Marketing & Bán hàng", catIcon: "📣",
+    text: "Bạn là chuyên viết bài Facebook. Hãy viết cho tôi bài quảng cáo về yến sào Nha Trang. Sau đó đóng vai chuyên gia đặt câu lệnh PROMPT, hãy viết lại câu lệnh đó ở trạng thái chi tiết nhất, đỉnh cao nhất, khai thác sâu sắc nhất, để có thể viết được một bài viết hay nhất.",
+    benefit: "Học cách nâng cấp câu lệnh từ đơn giản lên đỉnh cao — bài học thực hành tuyệt vời để viết content quảng cáo đẳng cấp trên mạng xã hội."
+  },
+  {
+    id: 25, cat: "ai",
+    catLabel: "AI & ChatGPT", catIcon: "🤖",
+    text: "Từ bây giờ, cuối mỗi câu trả lời, hãy cho tôi thêm 5 câu lệnh prompt để đào sâu hơn chủ đề phía trước. Tôi chỉ cần gõ phím từ 1 đến 5 là bạn biết phải trả lời prompt tương ứng. Nhớ lưu lại.",
+    benefit: "Thiết lập hệ thống chat thông minh liên tục đào sâu chủ đề — giúp bạn không bao giờ cạn ý tưởng và khai thác triệt để mọi chủ đề."
+  },
+  {
+    id: 26, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Tôi đang muốn lên một kế hoạch tổ chức trung thu cho 300 nhân sự tổ chức ở một nhà hàng sang trọng. Ngân sách cho mỗi nhân viên là khoảng 1 triệu. Bây giờ, hãy đóng vai trò là chuyên gia tổ chức sự kiện. Hãy hỏi tôi thêm các thông tin cần thiết để lên một kế hoạch thật chi tiết, bài bản và để lại ấn tượng sâu sắc cho nhân viên.",
+    benefit: "Xây dựng sự kiện nội bộ chuyên nghiệp với ngân sách tối ưu — giúp tăng gắn kết nhân viên và tạo văn hoá doanh nghiệp đặc sắc."
+  },
+  {
+    id: 27, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Bạn hãy đóng vai trò là 1 CHỦ TỊCH TỈNH vô cùng khó tính, cực kỳ tỉ mỉ, mỗi báo cáo đều đọc từng dòng từng chữ và đưa ra những gợi ý sắc xảo. Hãy duyệt lại báo cáo này cho tôi, kiểm tra xem có vấn đề gì không và đề xuất những gợi ý tiếp theo.",
+    benefit: "Cơ chế phản biện đỉnh cao — giúp bạn nhận ra điểm yếu trong báo cáo, kế hoạch trước khi trình bày với cấp trên thực sự."
+  },
+  {
+    id: 28, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Bạn là chuyên gia đào tạo hàng đầu thế giới, dạy cuốn hút, hấp dẫn người xem. Hãy kiểm tra cho tôi cái giáo án này, đưa ra những ưu và nhược điểm, và đề xuất cho tôi thêm các hoạt động để chương trình đào tạo càng hấp dẫn và cuốn hút hơn nữa.",
+    benefit: "Nâng cấp giáo án từ trung bình lên đẳng cấp thế giới — giúp chương trình đào tạo của bạn cuốn hút và hiệu quả hơn gấp nhiều lần."
+  },
+  {
+    id: 29, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Bạn hãy đóng vai trò là một nhà hiền triết, một bậc cao nhân. Hãy dùng tư duy quan sát thiên nhiên để đúc rút ra những bài học sâu sắc thể hiện quy luật của cuộc sống. Hãy quan sát một sự vật hiện tượng bất kỳ và cho tôi 5 bài học sâu sắc và thực tiễn nhất.",
+    benefit: "Khai mở trí tuệ từ thiên nhiên — bài học từ thế giới xung quanh ứng dụng trực tiếp vào kinh doanh, lãnh đạo và cuộc sống hằng ngày."
+  },
+  {
+    id: 30, cat: "ai",
+    catLabel: "AI & ChatGPT", catIcon: "🤖",
+    text: "Từ bây giờ, khi anh gõ phím 100, hãy trả lời câu lệnh sau và nhớ lưu lại: Bạn hãy đóng vai trò là một nhà hiền triết, một bậc cao nhân. Hãy dùng tư duy quan sát thiên nhiên để đúc rút ra những bài học sâu sắc thể hiện quy luật của cuộc sống. Hãy quan sát một sự vật hiện tượng bất kỳ và cho tôi 5 bài học sâu sắc và thực tiễn nhất.",
+    benefit: "Tạo phím tắt thông minh trong ChatGPT — chỉ cần gõ số là AI hiểu ngay, tiết kiệm thời gian gõ lại câu lệnh phức tạp mỗi lần."
+  },
+  {
+    id: 31, cat: "marketing",
+    catLabel: "Marketing & Bán hàng", catIcon: "📣",
+    text: "Tôi đang muốn học về Marketing. Hãy cho tôi biết các từ khóa gốc mà một người muốn học, muốn trở thành chuyên gia Marketing cần phải biết để hiểu rõ và sâu sắc nhất trong lĩnh vực này.",
+    benefit: "Bản đồ tri thức Marketing toàn diện — giúp bạn xây dựng lộ trình học bài bản thay vì học rời rạc, đạt trình độ chuyên gia nhanh hơn."
+  },
+  {
+    id: 32, cat: "marketing",
+    catLabel: "Marketing & Bán hàng", catIcon: "📣",
+    text: "Marketing Mix (4P/7P): Product, Price, Place, Promotion (mở rộng thêm People, Process, Physical Evidence). Hãy giải thích thật chi tiết cho tôi như cho 1 bác nông dân về kiến thức này.",
+    benefit: "Biến lý thuyết Marketing phức tạp thành ngôn ngữ đời thường — dễ nhớ, dễ dạy lại và dễ ứng dụng ngay vào thực tế kinh doanh."
+  },
+  {
+    id: 33, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Tôi đang muốn bán một khóa học dạy về AI trong một buổi với giá 5 triệu. Tôi cần phải làm những bước nào theo quy trình 4P để có thể bán được với giá 5 triệu một buổi mà người ta vẫn cảm thấy vui vẻ và hài lòng?",
+    benefit: "Chiến lược định giá và bán khóa học premium — học cách tạo ra giá trị xứng đáng để khách hàng vui vẻ chi trả mức giá cao."
+  },
+  {
+    id: 34, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Hành trình lãng quên của não bộ: sau bao lâu thì anh quên kiến thức? Làm sao để anh nhớ được kiến thức lâu nhất và đưa được kiến thức áp dụng vào thực tế?",
+    benefit: "Hiểu khoa học về trí nhớ để học đúng cách — tối ưu hóa thời gian ôn tập và biến kiến thức thành kỹ năng thực sự trong cuộc sống."
+  },
+  {
+    id: 35, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Sản phẩm thông tin là gì? Cho anh 10 loại sản phẩm thông tin phổ biến nhất.",
+    benefit: "Khám phá 10 loại sản phẩm số có thể tạo ra thu nhập thụ động — nền tảng để xây dựng đế chế kinh doanh online không giới hạn."
+  },
+  {
+    id: 36, cat: "marketing",
+    catLabel: "Marketing & Bán hàng", catIcon: "📣",
+    text: "Tôi muốn xây dựng thương hiệu cá nhân một cách bài bản, chuyên nghiệp và hiệu quả trên các nền tảng TikTok, YouTube, Facebook. Hãy đóng vai là một chuyên gia thương hiệu cá nhân, xây dựng giúp tôi một lộ trình thật chi tiết, cụ thể, thực tế và có thể triển khai ngay, bao gồm cả việc xác định khán giả mục tiêu, cách xây dựng nội dung viral, lịch đăng bài tối ưu.",
+    benefit: "Lộ trình xây dựng thương hiệu cá nhân toàn diện trên 3 nền tảng lớn — từ định vị đến content viral và lịch đăng bài tối ưu cho tăng trưởng."
+  },
+  {
+    id: 37, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Trong thời đại xã hội đang càng ngày càng phát triển, mỗi một ngày anh phải kết nối với 10 đến 20 khách hàng. Anh bắt buộc phải thiết kế ra một profile thật chi tiết dưới dạng PDF để bất cứ ai khi hỏi đến là anh gửi cho họ và họ sẽ nhớ đến anh. Em hãy thiết kế cho anh checklist để tạo ra một profile gồm những gì?",
+    benefit: "Checklist tạo profile cá nhân chuyên nghiệp — tài liệu tự giới thiệu mạnh mẽ giúp bạn được nhớ đến ngay lập tức trong kinh doanh."
+  },
+  {
+    id: 38, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Anh phát hiện ra rằng điểm kết thúc mới là quyết định tất cả. Thay vì mê mẩn vào hành trình thì bây giờ mình sẽ tập trung vào điểm kết thúc. Hãy phân tích cho anh điểm kết thúc của một đời người là gì? Và trước khi kết thúc thì điều gì là quan trọng nhất?",
+    benefit: "Triết lý sống sâu sắc — giúp bạn xác định điều quan trọng nhất trong đời để tập trung năng lượng đúng hướng thay vì lạc lối trong hành trình."
+  },
+  {
+    id: 39, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Anh tìm hiểu sâu sắc về triết lý tiền bạc. Anh phát hiện mỗi người chúng ta giống như một bãi đỗ xe ô tô, mỗi chiếc ô tô là tài sản hay tiền bạc. Có những chiếc ô tô đỗ rất lâu và có những chiếc chỉ đến rồi đi. Vì vậy chúng ta cần sử dụng tiền hiệu quả chứ không thể giữ mãi. Em nghĩ sao về điều này?",
+    benefit: "Triết lý tiền bạc độc đáo giúp thay đổi tư duy từ giữ tiền sang dùng tiền hiệu quả — nền tảng xây dựng tự do tài chính bền vững."
+  },
+  {
+    id: 40, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Tôi đang nhận một trách nhiệm kèm cặp một đứa trẻ 5 tuổi, con trai, đang sống tại Việt Nam. Mong muốn đứa trẻ này sau này trở thành một người toàn năng, lãnh đạo thế giới. Thì những người này cần phải có năng lực gì? Tôi cần phải định hướng những gì để đứa trẻ này lớn lên có thể vươn tầm thế giới?",
+    benefit: "Bản thiết kế giáo dục thế hệ lãnh đạo tương lai — giúp cha mẹ, người hướng dẫn định hướng đúng từ sớm để nuôi dưỡng tài năng xuất chúng."
+  },
+  {
+    id: 41, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Cho anh khái niệm và cách ứng dụng hiệu quả OKRs.",
+    benefit: "Hiểu và triển khai OKRs ngay — công cụ quản trị mục tiêu của Google, Intel giúp cả cá nhân lẫn doanh nghiệp tăng trưởng đột phá."
+  },
+  {
+    id: 42, cat: "marketing",
+    catLabel: "Marketing & Bán hàng", catIcon: "📣",
+    text: "Làm sao để gia tăng niềm tin để học viên mua khóa học và làm thế nào để tăng được cảm xúc để ra quyết định mua nhanh?",
+    benefit: "Chiến lược tâm lý bán hàng khóa học — kết hợp xây dựng niềm tin và kích hoạt cảm xúc để tăng tỷ lệ đăng ký và quyết định nhanh."
+  },
+  {
+    id: 43, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Anh đang là chủ tịch của một công ty trách nhiệm hữu hạn, doanh thu khoảng tầm 2 tỷ một tháng và có rất nhiều nguồn thu. Anh không có kiến thức kế toán. Hãy lên cho anh checklist để kiểm tra chéo và kiểm soát người kế toán trưởng bằng cách nào. Hướng dẫn thật chi tiết.",
+    benefit: "Công cụ kiểm soát tài chính dành cho lãnh đạo không chuyên kế toán — bảo vệ doanh nghiệp khỏi rủi ro tài chính với checklist kiểm tra chéo chuyên nghiệp."
+  },
+  {
+    id: 44, cat: "marketing",
+    catLabel: "Marketing & Bán hàng", catIcon: "📣",
+    text: "Dựa vào Tháp Nhu Cầu Maslow 5 tầng, với mỗi tầng nhu cầu hãy tạo ra cho anh những chiến lược để thu hút hay tạo ra những sản phẩm để bán cho từng nhóm nhu cầu và tạo ra giải pháp triệt để cho từng nhu cầu.",
+    benefit: "Ứng dụng Maslow vào thiết kế sản phẩm và chiến lược Marketing — hiểu sâu nhu cầu khách hàng để tạo ra giải pháp bán hàng đúng tầng tâm lý."
+  },
+  {
+    id: 45, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Anh phát hiện ra rằng bản chất cuộc đời ai rồi cũng phải kết thúc, chỉ là sớm hay muộn. Và anh muốn hướng đến một cái đích lớn nhất trong một lần được sống: đó là để lại di sản trí tuệ cho nhân loại. Chính vì điều đó anh chọn ngành đào tạo để làm việc. Em thấy sao về tầm nhìn này?",
+    benefit: "Đánh giá và củng cố tầm nhìn di sản trí tuệ — giúp bạn định hướng rõ ràng cho sứ mệnh nghề nghiệp và tìm ý nghĩa sâu sắc trong công việc."
+  },
+  {
+    id: 46, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Những người không có năng lực đào tạo thì đóng gói lại kiến thức của các cao nhân để truyền đạt lại. Hãy liệt kê danh sách những vĩ nhân đã để lại di sản trí tuệ lớn nhất cho nhân loại.",
+    benefit: "Kho tàng di sản trí tuệ nhân loại — nguồn nguyên liệu quý giá để xây dựng nội dung đào tạo, bài giảng có chiều sâu và giá trị vượt thời gian."
+  },
+  {
+    id: 47, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Cho anh những từ khóa và giá trị cốt lõi của Khổng Tử để anh áp dụng được ngay vào cuộc sống.",
+    benefit: "Tinh hoa triết học Khổng Tử cô đọng thành từ khoá hành động — ứng dụng ngay vào lãnh đạo, giáo dục và xây dựng văn hoá gia đình, doanh nghiệp."
+  },
+  {
+    id: 48, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Dựa vào các nội dung này để anh đào tạo các bạn nhân viên để thấu hiểu và biết cách chăm sóc khách hàng ở cấp độ sâu sắc nhất.",
+    benefit: "Xây dựng năng lực chăm sóc khách hàng cấp độ cao cho đội ngũ — chuyển kiến thức thành kỹ năng thực chiến tạo trải nghiệm khách hàng xuất sắc."
+  },
+  {
+    id: 49, cat: "marketing",
+    catLabel: "Marketing & Bán hàng", catIcon: "📣",
+    text: "Bán hàng thực phẩm chức năng: đừng nói về sản phẩm vì lâu dài sẽ thay đổi, phải thật giỏi các nền tảng trong cơ thể (là những điều không thay đổi). Nói về triết lý — là điều luôn đúng. Thì sản phẩm tự khắc sẽ bán được. Em có thể giúp anh áp dụng triết lý này như thế nào?",
+    benefit: "Chiến lược bán hàng dựa trên giáo dục và triết lý sức khoẻ — xây dựng niềm tin bền vững thay vì bán sản phẩm ngắn hạn để tạo khách hàng trung thành."
+  },
+  {
+    id: 50, cat: "suckhoe",
+    catLabel: "Sức khoẻ & Cuộc sống", catIcon: "🫀",
+    text: "Hãy phân tích chi tiết cơ chế, hoạt động, nguyên lý của quả tim. Con người hoạt động như thế nào? Cơ chế ra làm sao? Và tại sao lại phải cần có trái tim? Hãy phân tích thật kỹ để anh trở thành chuyên gia về tim mạch hàng đầu thế giới. Anh chuẩn bị có một buổi thuyết trình đứng trước các nhà khoa học Nobel y học thế giới.",
+    benefit: "Kiến thức tim mạch chuyên sâu trình độ chuyên gia — nền tảng khoa học để thuyết trình ấn tượng hoặc tư vấn sản phẩm sức khoẻ tim mạch."
+  },
+  {
+    id: 51, cat: "suckhoe",
+    catLabel: "Sức khoẻ & Cuộc sống", catIcon: "🫀",
+    text: "Hãy viết cho tôi 1 cuốn Ebook về Tầm quan trọng của các cơ quan trong cơ thể, viết theo phong cách thân thiện như người bạn đang kể chuyện.",
+    benefit: "Tạo ra sản phẩm thông tin giá trị về sức khoẻ — content marketing mạnh mẽ thu hút và giữ chân khách hàng trong lĩnh vực sức khoẻ."
+  },
+  {
+    id: 52, cat: "marketing",
+    catLabel: "Marketing & Bán hàng", catIcon: "📣",
+    text: "Trong marketing đừng đợi đến hoàn hảo mới làm mà phải hoàn thành. Marketing là sự lặp lại liên tục để khách hàng nhớ tới bạn. Tạo trí nhớ trong đầu khách hàng — vì trí nhớ tạo niềm tin và niềm tin tạo ra hành vi mua. Em hãy phân tích sâu hơn về triết lý này và cho anh 5 chiến lược cụ thể.",
+    benefit: "5 chiến lược Marketing thực chiến xây dựng trí nhớ thương hiệu — từ triết lý hoàn thành trước hoàn hảo sau đến các bước tạo dấu ấn bền vững."
+  },
+  {
+    id: 53, cat: "marketing",
+    catLabel: "Marketing & Bán hàng", catIcon: "📣",
+    text: "Marketing là nghệ thuật đánh trúng nhu cầu, bán thứ khách hàng cần chứ không phải thứ mình có. Họ đang đau ở đâu thì gãi đúng chỗ ngứa. Em hãy phân tích và đưa ra 5 ví dụ thực tế về cách áp dụng triết lý này.",
+    benefit: "5 ví dụ thực tế về Marketing đúng đau điểm khách hàng — giúp bạn ngay lập tức cải thiện thông điệp bán hàng và tăng tỷ lệ chuyển đổi."
+  },
+  {
+    id: 54, cat: "marketing",
+    catLabel: "Marketing & Bán hàng", catIcon: "📣",
+    text: "Hãy tạo ra bối cảnh giả định như sau: Trong một bàn làm việc có 10 người có nhiều ngành khác nhau, họ là người thành công. Bây giờ tôi ngồi làm những việc gì để thấu hiểu họ và bán bảo hiểm nhân thọ cho họ?",
+    benefit: "Kỹ năng thấu hiểu và tiếp cận khách hàng đa ngành — kịch bản thực hành bán hàng tinh tế giúp bạn bán bảo hiểm mà không bị cảm giác áp lực."
+  },
+  {
+    id: 55, cat: "ai",
+    catLabel: "AI & ChatGPT", catIcon: "🤖",
+    text: "Đây là 1 câu lệnh, hãy viết lại câu lệnh này hay hơn, chi tiết hơn rồi sau đó hãy trả lời.",
+    benefit: "Kỹ thuật nâng cấp câu lệnh tức thì — giúp bạn liên tục cải thiện chất lượng prompt để nhận được kết quả tốt hơn từ AI."
+  },
+  {
+    id: 56, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Vĩ nhân là gì? Đợt này anh đang dành thời gian để nghiên cứu về các vĩ nhân trên thế giới, tại sao họ lại thành công, tại sao họ lại đạt được các thành tựu lớn. Em hãy cho anh danh sách của những vĩ nhân và phân tích họ theo cấu trúc: hoàn cảnh xuất thân, điểm bước ngoặt, di sản để lại.",
+    benefit: "Phân tích hành trình vĩ nhân theo công thức 3 yếu tố — nguồn cảm hứng có hệ thống để bạn tìm ra bài học áp dụng vào hành trình riêng của mình."
+  },
+  {
+    id: 57, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Cho anh danh sách vĩ nhân trong lĩnh vực giáo dục.",
+    benefit: "Nguồn cảm hứng từ các bậc thầy giáo dục vĩ đại — học cách họ thay đổi thế giới qua tri thức để xây dựng di sản đào tạo của riêng bạn."
+  },
+  {
+    id: 58, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Ngày hôm nay, tôi khám phá ra một bí mật: để học bất cứ điều gì, chúng ta đều phải trải qua một quy trình: nhận biết kiến thức, thấu hiểu kiến thức, rồi hành động dựa trên kiến thức đó. Quan trọng hơn cả là phải biến việc học và hành động thành thói quen hằng ngày. Vậy, em đánh giá thế nào về chiến lược này?",
+    benefit: "Đánh giá và hoàn thiện khung phương pháp học tập — xây dựng hệ thống học hiệu quả biến kiến thức thành thói quen và kỹ năng thực sự."
+  },
+  {
+    id: 59, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Hãy phân tích cho anh hành trình của một đời người từ 5 tuổi cho đến 80 tuổi cần phải hình thành những thói quen nào, ở độ tuổi nào, và mỗi một độ tuổi, mỗi một giai đoạn thì cần phải duy trì những thói quen nào để cuộc sống có sự thịnh vượng, bền vững, và hạnh phúc đời đời.",
+    benefit: "Bản đồ thói quen theo vòng đời con người — giúp bạn định hướng đúng cho từng giai đoạn tuổi để sống thịnh vượng và hạnh phúc bền vững."
+  },
+  {
+    id: 60, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Hiện tại, anh đang là một nhà đầu tư bất động sản. Anh muốn trở thành bậc thầy về đầu tư và chiến thắng trong thị trường này. Em hãy liệt kê ra cho anh 10 thói quen của một nhà đầu tư thành công và tài ba trong lĩnh vực bất động sản để anh thực hành mỗi ngày.",
+    benefit: "10 thói quen nhà đầu tư bất động sản đỉnh cao — lộ trình thực hành hằng ngày để xây dựng tư duy và kỹ năng chiến thắng trên thị trường."
+  },
+  {
+    id: 61, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Tôi muốn trở thành một nhà đào tạo trên Zoom Online, dạy về những khóa học phát triển bản thân, dạy về cách sử dụng AI, dạy về tài chính, dạy về bán hàng. Hãy liệt kê cho tôi tất cả những thói quen cần có của một nhà đào tạo nổi tiếng hằng ngày cần phải làm những gì.",
+    benefit: "Checklist thói quen nhà đào tạo online chuyên nghiệp — hành trình xây dựng nghề dạy học trực tuyến từ thói quen hằng ngày đến thương hiệu bền vững."
+  },
+  {
+    id: 62, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Tôi phát hiện ra: nếu phải rời khỏi trái đất này và chỉ có đúng một phút để nói chuyện với những người thân của mình, thì lúc này một phút đó sẽ nói những cái gì ý nghĩa nhất? Hãy tạo ra cho tôi tất cả những câu nói dành cho những người chuẩn bị rời khỏi thế giới này.",
+    benefit: "Câu hỏi triết học sâu sắc về di sản cảm xúc — giúp bạn nhận ra điều quan trọng nhất trong cuộc sống và sống trọn vẹn từng ngày."
+  },
+  {
+    id: 63, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Anh muốn trở thành một vĩ nhân trong cuộc đời này, bởi vì mỗi một người sẽ đều được sinh ra một lần duy nhất. Bây giờ, em hãy viết ra cho anh tất cả những thói quen để có thể trở thành một vĩ nhân trong thế giới này.",
+    benefit: "Bộ thói quen của người vĩ đại — lộ trình dài hạn để sống xứng đáng với một lần được sinh ra, để lại dấu ấn không thể xóa nhòa."
+  },
+  {
+    id: 64, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Bạn hãy viết ra cho tôi tất cả những thói quen để hạ gục một vĩ nhân. Để tôi muốn một vĩ nhân họ không còn phát triển được nữa và họ sẽ dẫn đến việc suy tàn, thì hãy tạo thói quen nào cho họ?",
+    benefit: "Nhận diện những thói quen nguy hiểm có thể phá huỷ người tài — hiểu để tránh xa chính mình và nhận ra khi nào mình đang đi sai đường."
+  },
+  {
+    id: 65, cat: "ai",
+    catLabel: "AI & ChatGPT", catIcon: "🤖",
+    text: "Anh đang đào tạo về AI. Hãy áp dụng những kiến thức và từ khóa của Khổng Tử vào lĩnh vực AI để tạo ra những bài giảng sâu sắc và có chiều sâu triết lý.",
+    benefit: "Kết hợp triết học phương Đông với công nghệ AI — tạo ra giáo trình đào tạo AI độc đáo, sâu sắc và đầy triết lý không ai khác có."
+  },
+  {
+    id: 66, cat: "marketing",
+    catLabel: "Marketing & Bán hàng", catIcon: "📣",
+    text: "Phân tích cho anh Mô hình Value Proposition Canvas của Grab: họ tạo ra giá trị gì cho khách hàng, giải quyết pain point gì, và gain creator là gì?",
+    benefit: "Học mô hình giá trị từ Grab — ứng dụng Value Proposition Canvas để thiết kế sản phẩm và dịch vụ đúng nhu cầu khách hàng như các tập đoàn lớn."
+  },
+  {
+    id: 67, cat: "suckhoe",
+    catLabel: "Sức khoẻ & Cuộc sống", catIcon: "🫀",
+    text: "Anh đang thấy rất nhiều người bị bệnh ung thư ở Việt Nam và trên thế giới. Anh muốn tạo ra một trợ lý GPT-S chuyên về giải pháp hỗ trợ cho người dùng tìm hiểu về các căn bệnh ung thư và các giải pháp. Để tạo được trợ lý này, cần phải hiểu những gì? Hãy liệt kê ra tất cả những gạch đầu dòng để anh tạo trợ lý.",
+    benefit: "Kế hoạch xây dựng AI chuyên về sức khoẻ — tạo ra sản phẩm có giá trị xã hội to lớn trong lĩnh vực hỗ trợ người bệnh ung thư."
+  },
+  {
+    id: 68, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Trong lĩnh vực bán thực phẩm chức năng theo mô hình MLM, cần 3 từ khóa: Tuyển người, Đào tạo người, Giữ người trong đội nhóm. Bây giờ, em hãy đóng vai là một bậc thầy phát triển hệ thống MLM. Hãy định hướng cho anh một chiến lược toàn diện trong 3 tháng để tuyển dụng được 100 thủ lĩnh.",
+    benefit: "Chiến lược MLM 3 tháng toàn diện để tuyển 100 thủ lĩnh — hệ thống phát triển đội nhóm bài bản từ chuyên gia hàng đầu."
+  },
+  {
+    id: 69, cat: "ai",
+    catLabel: "AI & ChatGPT", catIcon: "🤖",
+    text: "Từ bây giờ, anh bấm phím số 1. Em hãy lên cho anh một giáo án để dạy cho tất cả những người mới học về AI để họ hiểu được câu lệnh là gì, prompt là gì, và cách đặt câu lệnh như thế nào cho hiệu quả. Phải đưa ra một giáo án để cho học sinh lớp 5 cũng có thể hiểu được.",
+    benefit: "Giáo án dạy AI dành cho người mới hoàn toàn — chuẩn hoá chất lượng bài giảng câu lệnh AI đơn giản đến mức học sinh lớp 5 cũng hiểu được."
+  },
+  {
+    id: 70, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Cộng đồng CMA Diamond là một cộng đồng cao cấp nhất của anh. Cộng đồng này sẽ chia sẻ tất cả những chiến lược, những cơ hội kinh doanh trong cuộc sống, đặc biệt giải quyết bài toán tài chính, giải quyết ba từ khóa: trí tuệ, sức khỏe, trải nghiệm. Hãy lưu lại thông tin này và sau này khi anh nhắc đến CMA Diamond, hãy trả lời ở cấp độ thông thái nhất.",
+    benefit: "Thiết lập bộ nhớ thông minh cho AI về cộng đồng của bạn — mọi lần đề cập CMA Diamond, AI sẽ hiểu và tư vấn ở mức thông thái nhất."
+  },
+  {
+    id: 71, cat: "marketing",
+    catLabel: "Marketing & Bán hàng", catIcon: "📣",
+    text: "Hãy viết cho anh một bức thư gửi đến học viên Thúy Hiền để mời họ vào CMA Diamond. Bức thư với giọng văn chân thành và kết nối. Họ đọc xong phải liên hệ để gia nhập. Nếu không gia nhập, mất ăn mất ngủ 7 ngày",
+    benefit: "Email mời gia nhập cộng đồng siêu thuyết phục — kết hợp cảm xúc chân thành và FOMO để tạo ra bức thư khó có thể từ chối."
+  },
+  {
+    id: 72, cat: "ai",
+    catLabel: "AI & ChatGPT", catIcon: "🤖",
+    text: "Hiện tại, cả xã hội đang sử dụng ChatGPT mới chỉ ở vòng ngoài. Anh sẽ mở ra một chương trình nghề code AI cá nhân hóa dành cho từng người. Mỗi chủ doanh nghiệp sẽ trả cho anh 10 triệu và anh đồng hành với họ trong 6 tháng để họ giỏi tất cả những gì về AI. Mục tiêu giúp 200 người. Em thấy chiến lược này sao?",
+    benefit: "Đánh giá mô hình kinh doanh AI coaching 1-1 cao cấp — phân tích tính khả thi và chiến lược để đạt mục tiêu 200 khách hàng."
+  },
+  {
+    id: 73, cat: "ai",
+    catLabel: "AI & ChatGPT", catIcon: "🤖",
+    text: "Hãy cho tôi biết cách sử dụng bạn và hãy cho tôi 5 câu lệnh mẫu để sử dụng bạn hiệu quả nhất.",
+    benefit: "Hướng dẫn căn bản sử dụng ChatGPT kèm 5 mẫu câu lệnh thực chiến — điểm khởi đầu lý tưởng cho người mới bắt đầu học AI."
+  },
+  {
+    id: 74, cat: "ai",
+    catLabel: "AI & ChatGPT", catIcon: "🤖",
+    text: "Hiểu về khái niệm của GPT-S (Custom GPT) là gì và làm thế nào để tạo ra một GPT-S hiệu quả phục vụ cho một lĩnh vực cụ thể?",
+    benefit: "Nắm vững Custom GPT từ khái niệm đến thực hành — tạo trợ lý AI cá nhân hoá phục vụ đúng ngành nghề và nhu cầu cụ thể của bạn."
+  },
+  {
+    id: 75, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "TỪ KHÓA HƯỚNG DẪN SỬ DỤNG: Mua một chiếc xe BMW X7 đời 2025. Có rất nhiều chức năng mới và anh cần tìm hiểu cách sử dụng. Em hãy viết ra cho anh một bản hướng dẫn sử dụng chi tiết để anh có thể làm chủ được chiếc xe này.",
+    benefit: "Ví dụ thực tế về từ khoá hướng dẫn sử dụng — học cách yêu cầu AI tạo tài liệu hướng dẫn chi tiết cho bất kỳ sản phẩm hay thiết bị nào."
+  },
+  {
+    id: 76, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Ừ KHÓA KHÁI NIỆM: Thầy giáo của tôi dạy rằng muốn nắm chủ bất cứ thứ gì trên cuộc đời này thì cần phải hiểu về khái niệm. Muốn có đền thì phải hiểu khái niệm đền là gì. Muốn nuôi con chó thì phải hiểu khái niệm con chó là gì. Muốn giữ được người vợ, người chồng thì phải hiểu khái niệm về họ. Em đánh giá sao về từ khóa này?",
+    benefit: "Triết lý nắm bắt khái niệm như nền tảng của mọi sự hiểu biết — công cụ tư duy giúp bạn nhanh chóng làm chủ bất kỳ lĩnh vực nào muốn học."
+  },
+  {
+    id: 77, cat: "marketing",
+    catLabel: "Marketing & Bán hàng", catIcon: "📣",
+    text: "TỪ KHÓA THẤU HIỂU: Anh là một chuyên gia bán hàng và muốn bán bất cứ một mặt hàng nào cho bất cứ ai. Anh thấu hiểu một điều: muốn bán được hàng cho loài người, thì anh cần phải hiểu được hành vi, tâm lý, mong muốn, suy nghĩ, nhu cầu của loài người. Em thấy điều này có đúng không và hãy phân tích sâu hơn.",
+    benefit: "Khai phá nền tảng bán hàng dựa trên tâm lý học — thấu hiểu hành vi người mua sâu hơn để tạo ra thông điệp bán hàng chạm đúng nhu cầu."
+  },
+  {
+    id: 78, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Anh đang kinh doanh trong lĩnh vực bán thực phẩm chức năng, đặc biệt là sản phẩm lợi khuẩn, và phát triển theo mô hình MLM. Em hãy đóng vai là một chuyên gia phát triển hệ thống MLM hàng đầu thế giới và cho anh chiến lược: Nên bắt đầu từ đâu? Làm gì để thu hút và tuyển dụng người? Đào tạo thế nào để họ giỏi và giữ được họ lâu dài?",
+    benefit: "Chiến lược MLM toàn diện từ chuyên gia hàng đầu — bao gồm khởi đầu, tuyển dụng, đào tạo và giữ chân thành viên trong hệ thống lâu dài."
+  },
+  {
+    id: 79, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Anh muốn học sâu về quản trị và điều hành nhân sự trong doanh nghiệp. Em hãy giúp anh liệt kê 5 chuyên gia giỏi nhất thế giới trong lĩnh vực này — những người có tầm ảnh hưởng, có lý thuyết, mô hình hoặc công trình thực tiễn nổi bật mà anh có thể học hỏi theo.",
+    benefit: "Danh sách 5 bậc thầy quản trị nhân sự thế giới — nguồn học tập chính thống để xây dựng năng lực lãnh đạo và quản lý con người đẳng cấp."
+  },
+  {
+    id: 80, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Dựa vào thông tin của 5 chuyên gia giỏi về quản trị nhân sự, hãy tạo ra cho anh một bài đào tạo để dạy lại cho anh các chiến lược về quản trị nhân sự. Anh là một doanh nghiệp, có khoảng 200 nhân sự, làm về lĩnh vực đào tạo.",
+    benefit: "Bài đào tạo quản trị nhân sự tuỳ chỉnh cho doanh nghiệp 200 người — kết hợp lý thuyết của 5 chuyên gia thế giới vào thực tiễn ngành đào tạo."
+  },
+  {
+    id: 81, cat: "ai",
+    catLabel: "AI & ChatGPT", catIcon: "🤖",
+    text: "Anh biết rằng để sử dụng được AI hiệu quả đặc biệt là phần tuỳ chỉnh ChatGPT. Bây giờ hãy cho anh biết về khái niệm tuỳ chỉnh ChatGPT là gì, hướng dẫn thật chi tiết và cho anh tất cả các thông tin trong phần tuỳ chỉnh ChatGPT và cho anh các ví dụ để điền vào các phần ô thông tin.",
+    benefit: "Hướng dẫn tùy chỉnh ChatGPT đầy đủ kèm ví dụ thực tế — giúp bạn cá nhân hóa AI để nó hiểu bạn và phục vụ hiệu quả nhất."
+  },
+  {
+    id: 82, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Người ở phương Tây đa phần có sự bình an ở trên gương mặt. Còn những người ở phương Đông, thì luôn có một điều gì đó khắc khổ, suy nghĩ, mệt mỏi. Em hãy đánh giá cho anh tại sao người phương Tây có thể gạt bỏ được điều đấy. Còn người phương Đông, thì chưa làm được?",
+    benefit: "Phân tích tâm lý học văn hoá Đông - Tây sâu sắc — giúp bạn hiểu gốc rễ của bình an nội tâm và xây dựng trạng thái tâm lý khoẻ mạnh."
+  },
+  {
+    id: 83, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Khi tuyển dụng, quản lý con người cần học những kiến thức gốc nào? Hãy liệt kê và giải thích các công cụ như DISC, SOP, KPI và những gì cần thiết khác.",
+    benefit: "Bộ công cụ quản trị nhân sự căn bản cho lãnh đạo — hiểu DISC, SOP, KPI và các công cụ nền tảng để tuyển dụng và quản lý hiệu quả."
+  },
+  {
+    id: 84, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "DISC, EQ, SMART, KPI. Giải thích những thông tin này 1 cách đơn giản và dễ hiểu nhất, lập thành bảng so sánh.",
+    benefit: "Bảng tổng hợp 4 công cụ quản trị thiết yếu — so sánh rõ ràng giúp bạn nắm bắt và áp dụng đúng từng công cụ vào đúng tình huống."
+  },
+  {
+    id: 85, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Tôi muốn làm đào tạo thì cần học những kiến thức gốc nào? Hãy liệt kê từ A đến Z những gì cần biết để trở thành một nhà đào tạo chuyên nghiệp.",
+    benefit: "Bản đồ kiến thức toàn diện cho nhà đào tạo chuyên nghiệp — từ A đến Z những gì cần học để xây dựng sự nghiệp đào tạo bài bản và bền vững."
+  },
+  {
+    id: 86, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "5 bước kinh điển trong thiết kế đào tạo: Analyze – Design – Develop – Implement – Evaluate. Giải thích đơn giản, ngắn gọn cho từng bước.",
+    benefit: "Quy trình ADDIE được giải thích đơn giản — nền tảng thiết kế chương trình đào tạo chuyên nghiệp giúp bạn xây dựng khóa học có hệ thống."
+  },
+  {
+    id: 87, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Mục tiêu của doanh nghiệp tôi năm tới là 100 tỷ. Mục tiêu này đã SMART chưa? Hãy phân tích theo từng tiêu chí và giúp tôi viết lại mục tiêu đó cho thật SMART.",
+    benefit: "Phân tích và tái thiết lập mục tiêu doanh nghiệp theo tiêu chuẩn SMART — chuyển con số thành cam kết hành động có thể đo lường và thực hiện được."
+  },
+  {
+    id: 88, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "SOP trong công ty là gì? Tại sao cần có SOP và làm thế nào để viết một SOP hiệu quả?",
+    benefit: "Hiểu và xây dựng SOP từ đầu — tiêu chuẩn hóa quy trình vận hành giúp doanh nghiệp hoạt động nhất quán, không phụ thuộc vào cá nhân."
+  },
+  {
+    id: 89, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "SOP chuẩn cho MC của 1 buổi zoom đào tạo: từ trước khi vào học đến khi kết thúc buổi.",
+    benefit: "Quy trình chuẩn cho MC dẫn chương trình Zoom — đảm bảo buổi học diễn ra mượt mà chuyên nghiệp từ đầu đến cuối, không bỏ sót bước nào."
+  },
+  {
+    id: 90, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "SOP cho 1 giảng viên chuẩn bị 1 buổi lên Zoom đào tạo về A.I: từ khâu chuẩn bị nội dung đến sau buổi học.",
+    benefit: "Quy trình chuẩn từ A đến Z cho giảng viên dạy AI trên Zoom — giúp buổi học diễn ra chuyên nghiệp, có chiều sâu và tạo ấn tượng tốt với học viên."
+  },
+  {
+    id: 91, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Bạn là chuyên gia hàng đầu thế giới trong lĩnh vực quan sát, đúc kết hàng nghìn năm lịch sử một cách sâu sắc. Mỗi khi tôi gõ một điều gì, vật gì, hiện tượng gì thì hãy tập hợp hội đồng trí tuệ ưu tú từ hàng nghìn năm lịch sử để đưa ra các bài học và ứng dụng vào công việc Người truyền lửa, MC dẫn dắt lớp học. Làm sao đọc cho có vần, có điệu, ngôn từ giàu cảm xúc.",
+    benefit: "Tạo ra nội dung đào tạo truyền cảm hứng từ thiên nhiên và lịch sử — giúp MC và giảng viên có kho chất liệu vô tận với ngôn ngữ giàu hình ảnh, cảm xúc."
+  },
+  {
+    id: 92, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Bạn là chuyên gia hàng đầu thế giới trong lĩnh vực quan sát, đúc kết hàng nghìn năm lịch sử một cách sâu sắc để áp dụng các bài học vào công việc đào tạo. Mỗi khi tôi gõ một điều gì, vật gì, hiện tượng gì thì hãy tập hợp hội đồng trí tuệ ưu tú để đưa ra các bài học và ứng dụng vào công việc đào tạo truyền cảm hứng.",
+    benefit: "Trợ lý AI chuyên tạo bài học từ vạn vật — mỗi hiện tượng trong cuộc sống trở thành bài học đào tạo sâu sắc có thể dùng ngay trong lớp học."
+  },
+  {
+    id: 93, cat: "ai",
+    catLabel: "AI & ChatGPT", catIcon: "🤖",
+    text: "Bạn là chuyên gia hàng đầu thế giới trong lĩnh vực Huấn luyện AI cá nhân hoá trong công việc. Tôi là người đào tạo ứng dụng AI, 50 tuổi, sống ở Nha Trang. Mỗi khi tôi đưa một lĩnh vực bất kỳ vào phần chat này, hãy tiến hành áp dụng việc huấn luyện cá nhân hoá AI trong công việc của lĩnh vực tôi quan tâm.",
+    benefit: "Thiết lập trợ lý AI cá nhân hoá theo nghề nghiệp và vị trí — giúp bạn nhận tư vấn AI đúng bối cảnh, đúng nhu cầu thay vì câu trả lời chung chung."
+  },
+  {
+    id: 94, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Tôi đang là một giáo viên. Bây giờ tôi muốn tạo ra nhiều dòng tiền từ AI ChatGPT ngay cả khi tôi đang ngủ để tạo ra thu nhập thụ động, để tiền lại sinh ra tiền.",
+    benefit: "Lộ trình tạo thu nhập thụ động từ AI dành riêng cho giáo viên — biến kiến thức chuyên môn thành sản phẩm số sinh ra tiền 24/7."
+  },
+  {
+    id: 95, cat: "ai",
+    catLabel: "AI & ChatGPT", catIcon: "🤖",
+    text: "Cho tôi 10 câu hỏi để tạo ra dòng tiền nhờ ứng dụng ChatGPT.",
+    benefit: "10 câu hỏi mở ra cơ hội kiếm tiền từ AI — khám phá các hướng kinh doanh với ChatGPT mà bạn chưa nghĩ đến, từ freelance đến sản phẩm số."
+  },
+  {
+    id: 96, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Công thức kiếm tiền từ AI: viết nhật ký vấn đề có trong xã hội và vấn đề của mình, nghĩ ra câu lệnh để giải quyết những vấn đề đó, rồi biến câu lệnh thành câu lệnh để đời. Ví dụ: xã hội không biết bắt đầu học AI từ đâu. Hãy phân tích và mở rộng công thức này.",
+    benefit: "Công thức độc đáo biến vấn đề thành cơ hội kinh doanh AI — phương pháp sáng tạo sản phẩm từ nhu cầu thực tế của xã hội."
+  },
+  {
+    id: 97, cat: "marketing",
+    catLabel: "Marketing & Bán hàng", catIcon: "📣",
+    text: "Giải thích thuật toán của nền tảng YouTube, Facebook, TikTok và cách để nội dung của tôi được đề xuất nhiều hơn?",
+    benefit: "Hiểu thuật toán 3 nền tảng lớn — tối ưu hóa nội dung để được đề xuất nhiều hơn và tiếp cận đúng đối tượng khán giả mục tiêu một cách tự nhiên."
+  },
+  {
+    id: 98, cat: "kinhdoanh",
+    catLabel: "Kinh doanh & Tài chính", catIcon: "💼",
+    text: "Tôi muốn biết quy mô thị trường của sản phẩm này, ngành hàng này là bao nhiêu và tiềm năng tăng trưởng trong 5 năm tới như thế nào?",
+    benefit: "Phân tích thị trường và dự báo tăng trưởng 5 năm — dữ liệu quyết định đầu tư giúp bạn chọn đúng ngành, đúng thời điểm để kinh doanh."
+  },
+  {
+    id: 99, cat: "triettly",
+    catLabel: "Triết lý & Tư duy", catIcon: "🌿",
+    text: "Làm mọi thứ quy về trải nghiệm: ăn gì? Kết nối với ai?... Anh đi Hàn Quốc cho anh biết cần đi đâu để có trải nghiệm đặc biệt nhất mà người thường không biết.",
+    benefit: "Khám phá góc khuất Hàn Quốc ít người biết — triết lý sống trải nghiệm được áp dụng vào du lịch, giúp mỗi chuyến đi trở thành kỷ niệm đặc biệt."
+  },
+  {
+    id: 100, cat: "daotao",
+    catLabel: "Đào tạo & Phát triển", catIcon: "🎓",
+    text: "Bạn hãy đóng vai là một chuyên gia về đọc sách, thấu hiểu sách, nghiên cứu sách, và có thể tổng hợp được tất cả những kiến thức hay nhất trong sách để viết ra chi tiết những từ khóa, thông điệp, tiêu đề hay nhất để trình bày lại cho tôi. Ngay sau đây, tôi sẽ gửi nội dung cuốn sách cho bạn và bạn thực hành nhiệm vụ này.",
+    benefit: "Trợ lý đọc sách thông minh — trích xuất tinh hoa từ bất kỳ cuốn sách nào thành từ khoá và thông điệp cốt lõi để ứng dụng và trình bày lại."
+  }
+];
+
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+let saved = JSON.parse(localStorage.getItem('dp_saved') || '[]');
+let currentCat = 'all';
+let currentQuery = '';
+let sortAsc = true;
+
+// ══════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════
+function highlight(text, query) {
+  if (!query) return text;
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`(${escaped})`, 'gi'), '<span class="highlight">$1</span>');
+}
+
+function render() {
+  const grid = document.getElementById('grid');
+  const q = currentQuery.toLowerCase().trim();
+
+  let filtered = prompts.filter(p => {
+    const matchCat = currentCat === 'all' ? true
+      : currentCat === 'saved' ? saved.includes(p.id)
+      : p.cat === currentCat;
+    const matchQ = !q || p.text.toLowerCase().includes(q) || p.benefit.toLowerCase().includes(q) || String(p.id).includes(q);
+    return matchCat && matchQ;
+  });
+
+  if (!sortAsc) filtered = [...filtered].reverse();
+
+  document.getElementById('showCount').textContent = filtered.length;
+  document.getElementById('resultsInfo').textContent =
+    filtered.length === 100 ? 'Hiển thị toàn bộ 100 câu lệnh kim cương'
+    : `Hiển thị ${filtered.length} / 100 câu lệnh`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">Không tìm thấy câu lệnh phù hợp</div></div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map((p, idx) => {
+    const isSaved = saved.includes(p.id);
+    const delay = Math.min(idx * 30, 400);
+    return `
+    <div class="card${isSaved ? ' saved' : ''}" style="animation-delay:${delay}ms" data-id="${p.id}">
+      <span class="card-number">#${String(p.id).padStart(2,'0')}</span>
+      <div class="card-category"><span class="card-category-icon">${p.catIcon}</span>${p.catLabel}</div>
+      <div class="card-prompt">${highlight(p.text, currentQuery)}</div>
+      <div class="divider"></div>
+      <div class="benefit-label">Lợi ích ngắn gọn</div>
+      <div class="card-benefit">${highlight(p.benefit, currentQuery)}</div>
+      <div class="card-actions">
+        <button class="btn-copy" onclick="copyPrompt(${p.id}, this)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Sao chép
+        </button>
+        <button class="btn-save${isSaved ? ' active' : ''}" onclick="toggleSave(${p.id}, this)">
+          ${isSaved ? '⭐' : '☆'} ${isSaved ? 'Đã lưu' : 'Lưu lại'}
+        </button>
+        <span class="card-number-badge">No.${p.id}/100</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+// ACTIONS
+// ══════════════════════════════════════════════
+function copyPrompt(id, btn) {
+  const p = prompts.find(x => x.id === id);
+  if (!p) return;
+  navigator.clipboard.writeText(p.text).then(() => {
+    btn.classList.add('copied');
+    btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Đã sao chép!`;
+    showToast('✓ Đã sao chép câu lệnh!');
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Sao chép`;
+    }, 2000);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = p.text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('✓ Đã sao chép!');
+  });
+}
+
+function toggleSave(id, btn) {
+  if (saved.includes(id)) {
+    saved = saved.filter(x => x !== id);
+    showToast('Đã bỏ lưu câu lệnh');
+  } else {
+    saved.push(id);
+    showToast('⭐ Đã lưu câu lệnh!');
+  }
+  localStorage.setItem('dp_saved', JSON.stringify(saved));
+  document.getElementById('savedCount').textContent = saved.length;
+
+  if (currentCat === 'saved') {
+    render();
+  } else {
+    const card = btn.closest('.card');
+    if (saved.includes(id)) {
+      card.classList.add('saved');
+      btn.classList.add('active');
+      btn.textContent = '⭐ Đã lưu';
+    } else {
+      card.classList.remove('saved');
+      btn.classList.remove('active');
+      btn.textContent = '☆ Lưu lại';
+    }
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ══════════════════════════════════════════════
+// EVENT LISTENERS
+// ══════════════════════════════════════════════
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentCat = btn.dataset.cat;
+    render();
+  });
+});
+
+const searchInput = document.getElementById('searchInput');
+const clearBtn = document.getElementById('clearSearch');
+
+searchInput.addEventListener('input', () => {
+  currentQuery = searchInput.value;
+  clearBtn.style.display = currentQuery ? 'block' : 'none';
+  render();
+});
+
+clearBtn.addEventListener('click', () => {
+  searchInput.value = '';
+  currentQuery = '';
+  clearBtn.style.display = 'none';
+  searchInput.focus();
+  render();
+});
+
+document.getElementById('sortBtn').addEventListener('click', function() {
+  sortAsc = !sortAsc;
+  this.textContent = sortAsc ? 'Số thứ tự ↑' : 'Số thứ tự ↓';
+  render();
+});
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+document.getElementById('savedCount').textContent = saved.length;
+render();
+</script>
+</body>
+</html>
